@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Digital Bundles Kylie Kelly</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Cormorant+Garamond:ital,wght@1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --pink:   #e040fb;
+      --green:  #7EECD4;
+      --purple: #B88CED;
+      --navy:   #1a1a1a;
+      --dark:   #0f0f0f;
+      --white:  #ffffff;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--navy);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+    }
+    button { cursor: pointer; }
+    a { text-decoration: none; transition: color 0.2s; }
+
+    /* ── Animations ── */
+    @keyframes ovIn    { from { transform: translateY(14px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    @keyframes ovFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+    @keyframes ovLine  { from { transform: scaleX(0); opacity: 0; } to { transform: scaleX(1); opacity: 1; } }
+    @keyframes ovPulse { 0%, 100% { box-shadow: 0 0 0 rgba(224,64,251,0); } 50% { box-shadow: 0 0 16px rgba(224,64,251,0.25); } }
+    @keyframes pIn     { from { transform: translateX(-16px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    @keyframes arrowPulse { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(5px); } }
+    @keyframes trustGlow  { 0%, 100% { box-shadow: 0 0 0 rgba(224,64,251,0); } 50% { box-shadow: 0 0 20px rgba(224,64,251,0.2); } }
+    @keyframes tFade   { 0%, 30% { opacity: 0.9; } 70%, 100% { opacity: 0.2; } }
+    @keyframes tPulse  { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.02); } }
+    @keyframes tSlide  { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    @keyframes hIn     { from { transform: translateX(-14px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    @keyframes numIn   { from { transform: translateY(16px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    @keyframes mIn     { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    @keyframes barGrow { from { width: 0; } to { width: var(--bar-w); } }
+
+    /* ── Header ── */
+    .header {
+      background: linear-gradient(160deg, #0f0f0f, #1a1a1a);
+      padding: 44px 24px 28px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .header-grid {
+      position: absolute; inset: 0;
+      background-image:
+        repeating-linear-gradient(90deg, rgba(224,64,251,0.04) 0, rgba(224,64,251,0.04) 1px, transparent 1px, transparent 48px),
+        repeating-linear-gradient(0deg,  rgba(224,64,251,0.04) 0, rgba(224,64,251,0.04) 1px, transparent 1px, transparent 48px);
+    }
+    .header-eyebrow {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.22em;
+      color: var(--pink); text-transform: uppercase; margin-bottom: 14px; position: relative;
+    }
+    .header h1 {
+      font-family: 'Playfair Display', serif; font-weight: 700;
+      font-size: clamp(26px, 5vw, 38px); color: var(--white);
+      position: relative; line-height: 1.2; margin-bottom: 6px;
+    }
+    .header h1 em { color: var(--pink); font-style: italic; }
+    .header p {
+      font-size: 14px; color: rgba(255,255,255,0.85); margin-top: 14px;
+      position: relative; line-height: 1.7; max-width: 480px; margin-left: auto; margin-right: auto;
+    }
+
+    /* ── Tabs ── */
+    .tabs {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(26,26,26,0.97); backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      display: flex; overflow-x: auto; -webkit-overflow-scrolling: touch;
+      justify-content: center;
+    }
+    .tabs::-webkit-scrollbar { display: none; }
+    .tab-btn {
+      font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 700;
+      padding: 14px 16px 12px; border: none; background: none;
+      color: rgba(255,255,255,0.35); white-space: nowrap;
+      flex-shrink: 0; transition: color 0.2s;
+      border-bottom: 2px solid transparent; letter-spacing: 0.06em;
+    }
+    .tab-btn.active { color: var(--pink); border-bottom-color: var(--pink); }
+
+    /* ── Content wrapper ── */
+    .content { max-width: 680px; margin: 0 auto; padding: 28px 20px 48px; }
+
+    /* ── Overview path rows ── */
+    .path-label-green { font-size:10px;font-weight:700;letter-spacing:0.2em;color:var(--green);text-transform:uppercase;margin-bottom:12px;padding-left:4px;text-align:center; }
+    .path-label-pink  { font-size:10px;font-weight:700;letter-spacing:0.2em;color:var(--pink); text-transform:uppercase;margin-bottom:12px;padding-left:4px;text-align:center; }
+    .path-row { display:flex;align-items:center;gap:0;justify-content:center; }
+    .step-icon-green { width:48px;height:48px;border-radius:12px;background:rgba(126,236,212,0.1);border:1px solid rgba(126,236,212,0.3);margin:0 auto 6px;display:flex;align-items:center;justify-content:center;font-size:20px; }
+    .step-icon-pink  { width:48px;height:48px;border-radius:12px;background:rgba(224,64,251,0.1); border:1px solid rgba(224,64,251,0.3); margin:0 auto 6px;display:flex;align-items:center;justify-content:center;font-size:20px; }
+    .step-label-green { font-size:10px;font-weight:600;color:var(--green);text-align:center; }
+    .step-label-pink  { font-size:10px;font-weight:600;color:var(--pink); text-align:center; }
+    .connector-green { width:16px;height:1.5px;background:rgba(126,236,212,0.4);margin-bottom:18px;flex-shrink:0;transform-origin:left; }
+    .connector-pink  { width:16px;height:1.5px;background:rgba(224,64,251,0.4); margin-bottom:18px;flex-shrink:0;transform-origin:left; }
+    .path-divider { height:1px;background:rgba(255,255,255,0.06);margin-bottom:20px;margin-top:4px; }
+    .caption { text-align:center;margin-top:20px;font-size:10px;letter-spacing:0.22em;color:rgba(255,255,255,0.3);text-transform:uppercase; }
+
+    /* ── How to use callout ── */
+    .how-to-use {
+      border-left: 3px solid var(--pink); background: rgba(255,255,255,0.03);
+      padding: 16px 20px; margin: 0 0 28px; border-radius: 0 12px 12px 0;
+    }
+    .how-to-use-label { font-size:10px;font-weight:700;letter-spacing:0.18em;color:var(--pink);text-transform:uppercase;margin-bottom:6px; }
+    .how-to-use p { font-size:14px;color:rgba(255,255,255,0.65);line-height:1.65; }
+
+    /* ── Section cards ── */
+    .at-a-glance-label { font-size:9px;font-weight:700;letter-spacing:0.18em;color:rgba(255,255,255,0.25);text-transform:uppercase;margin-bottom:14px; }
+    .section-card {
+      background: rgba(255,255,255,0.03); border-radius:14px;
+      border:1px solid rgba(255,255,255,0.07);
+      padding:20px; margin-bottom:10px; cursor:pointer; transition:all 0.2s;
+      display:flex; align-items:center; gap:24px;
+    }
+    .section-card:hover { background:rgba(224,64,251,0.07); border-color:rgba(224,64,251,0.25); }
+    .section-num {
+      width:44px;height:44px;border-radius:50%;background:var(--pink);
+      display:flex;align-items:center;justify-content:center;
+      font-size:12px;font-weight:700;color:#fff;flex-shrink:0;
+    }
+    .section-card-text { flex:1;min-width:0; }
+    .section-card-title { font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:#fff;line-height:1.3; }
+    .section-card-sub   { font-size:13px;color:rgba(255,255,255,0.4);margin-top:2px; }
+    .section-card-icon  { font-size:22px;flex-shrink:0; }
+
+    /* ── Quick reference ── */
+    .quick-ref {
+      background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);
+      border-top:2px solid var(--purple);border-radius:14px;padding:22px 24px;margin-top:28px;
+    }
+    .quick-ref-label { font-size:9px;font-weight:700;letter-spacing:0.18em;color:var(--purple);text-transform:uppercase;margin-bottom:16px; }
+    .quick-ref-grid  { display:grid;grid-template-columns:1fr 1fr;gap:20px; }
+    .qr-section-label { font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:10px; }
+    .qr-item { display:flex;gap:8px;margin-bottom:6px;font-size:13px;color:rgba(255,255,255,0.55);line-height:1.4; }
+    .qr-arrow { flex-shrink:0; }
+
+    /* ── Footer quote ── */
+    .footer-quote {
+      text-align:center;margin-top:48px;padding-top:24px;
+      border-top:1px solid rgba(255,255,255,0.07);
+    }
+    .footer-quote-text { font-family:'Cormorant Garamond',serif;font-style:italic;font-size:18px;color:rgba(255,255,255,0.4);line-height:1.5; }
+    .footer-quote-name { font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--pink);margin-top:12px; }
+
+    /* ── Section header ── */
+    .section-header { display:flex;align-items:flex-start;gap:16px;margin-bottom:24px; }
+    .section-num-lg {
+      width:48px;height:48px;border-radius:50%;background:var(--pink);
+      display:flex;align-items:center;justify-content:center;
+      font-size:13px;font-weight:700;color:#fff;flex-shrink:0;
+    }
+    .section-eyebrow { font-size:9px;font-weight:700;letter-spacing:0.18em;color:var(--pink);text-transform:uppercase; }
+    .section-title   { font-family:'Playfair Display',serif;font-size:clamp(20px,4vw,28px);font-weight:700;color:#fff;line-height:1.25; }
+    .section-title em { color:var(--pink);font-style:italic; }
+    .section-subtitle { font-size:14px;color:rgba(255,255,255,0.4);margin-top:4px;line-height:1.5; }
+
+    /* ── Anim card ── */
+    .anim-card { border-radius:14px;border:1px solid rgba(255,255,255,0.07);padding:24px;margin-bottom:24px;background:rgba(255,255,255,0.03); }
+
+    /* ── Trust flow (contributing) ── */
+    .trust-flow { display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap; }
+    .trust-box-green { width:90px;height:80px;border-radius:12px;background:rgba(126,236,212,0.08);border:1px solid rgba(126,236,212,0.25);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px; }
+    .trust-box-mid   { width:90px;height:80px;border-radius:12px;background:rgba(224,64,251,0.08); border:1px solid rgba(224,64,251,0.3); display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px; }
+    .trust-box-final { width:90px;height:80px;border-radius:12px;background:rgba(224,64,251,0.12);border:2px solid var(--pink); display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px; }
+    .trust-label-green { font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--green); }
+    .trust-label-pink  { font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--pink);  }
+    .trust-sub   { font-size:9px;color:rgba(255,255,255,0.35); }
+    .trust-sub-f { font-size:9px;color:rgba(255,255,255,0.5);  }
+    .trust-arrow { color:rgba(255,255,255,0.3);font-size:18px; }
+
+    /* ── Bundle comparison (free vs paid) ── */
+    .compare-grid { display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:400px;margin:0 auto; }
+    .compare-col  { border-radius:12px;padding:16px 14px; }
+    .compare-col-green  { background:rgba(126,236,212,0.06);border:1px solid rgba(126,236,212,0.2); }
+    .compare-col-purple { background:rgba(184,140,237,0.06);border:1px solid rgba(184,140,237,0.2); }
+    .compare-col-label  { font-size:9px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:10px; }
+    .compare-item { font-size:12px;color:rgba(255,255,255,0.6);line-height:1.5;margin-bottom:5px;display:flex;gap:6px; }
+
+    /* ── Vetting checklist ── */
+    .vet-list { display:flex;flex-direction:column;gap:7px;max-width:360px;margin:0 auto; }
+    .vet-item { display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.04);border-radius:10px;border:1px solid rgba(255,255,255,0.07);padding:11px 14px; }
+    .vet-check { width:18px;height:18px;border-radius:5px;background:rgba(126,236,212,0.15);border:1px solid rgba(126,236,212,0.35);display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0; }
+    .vet-text  { font-size:12px;font-weight:600;color:rgba(255,255,255,0.8);letter-spacing:0.02em; }
+
+    /* ── Resource reveal ── */
+    .resource-reveal { display:flex;flex-direction:column;gap:8px;max-width:340px;margin:0 auto; }
+    .rr-step { display:flex;align-items:center;gap:14px;background:rgba(255,255,255,0.04);border-radius:10px;padding:11px 14px;border:1px solid rgba(255,255,255,0.07); }
+    .rr-num  { width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0; }
+    .rr-text { font-size:12px;font-weight:600;color:rgba(255,255,255,0.8); }
+
+    /* ── Hosting steps ── */
+    .steps-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:360px;margin:0 auto; }
+    .step-tile { background:rgba(255,255,255,0.04);border-radius:10px;border:1px solid rgba(255,255,255,0.08);padding:12px 10px;text-align:center; }
+    .step-tile-num   { font-size:9px;font-weight:700;letter-spacing:0.18em;margin-bottom:4px; }
+    .step-tile-label { font-size:12px;font-weight:600;color:rgba(255,255,255,0.8); }
+
+    /* ── Post-bundle flow ── */
+    .flow-list { display:flex;flex-direction:column;gap:6px;max-width:340px;margin:0 auto; }
+    .flow-item { display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:10px;border-left:3px solid var(--pink);background:rgba(255,255,255,0.03); }
+    .flow-day  { font-size:9px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--pink);flex-shrink:0;min-width:32px; }
+    .flow-text { font-size:12px;color:rgba(255,255,255,0.75);line-height:1.4; }
+
+    /* ── Mistakes ── */
+    .mistakes-grid { display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:300px;margin:0 auto; }
+    .mistake-card { background:rgba(255,80,80,0.07);border-radius:10px;border:1px solid rgba(255,80,80,0.2);padding:14px 12px;text-align:center; }
+    .mistake-icon  { font-size:20px;margin-bottom:6px; }
+    .mistake-label { font-size:11px;font-weight:700;color:rgba(255,150,150,0.9);letter-spacing:0.06em; }
+
+    /* ── Bullets ── */
+    .bullet-card { background:rgba(255,255,255,0.03);border-radius:12px;border:1px solid rgba(255,255,255,0.07);padding:16px 20px;margin-bottom:10px;display:flex;align-items:flex-start;gap:14px; }
+    .bullet-dot   { width:7px;height:7px;border-radius:50%;background:var(--pink);margin-top:8px;flex-shrink:0; }
+    .bullet-text  { font-size:14px;color:rgba(255,255,255,0.7);line-height:1.65; }
+
+    /* ── Takeaway ── */
+    .takeaway {
+      background:rgba(224,64,251,0.08);border:1px solid rgba(224,64,251,0.25);
+      border-radius:12px;padding:20px;margin-top:20px;position:relative;overflow:hidden;
+    }
+    .takeaway-glow {
+      position:absolute;top:-40%;right:-10%;width:60%;height:180%;
+      background:radial-gradient(circle,rgba(224,64,251,0.06),transparent 70%);pointer-events:none;
+    }
+    .takeaway-header { display:flex;align-items:center;gap:10px;margin-bottom:10px;position:relative; }
+    .takeaway-icon   { font-size:24px;line-height:1; }
+    .takeaway-label  { font-size:9px;font-weight:700;letter-spacing:0.2em;color:var(--pink);text-transform:uppercase; }
+    .takeaway-text   { font-family:'Cormorant Garamond',serif;font-style:italic;font-size:19px;font-weight:500;color:#fff;line-height:1.6;position:relative; }
+
+    /* ── Nav footer ── */
+    .nav-footer { display:flex;justify-content:space-between;align-items:center;margin-top:32px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.07); }
+    .nav-btn-back { display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--pink);background:none;border:none;padding:10px 16px;border-radius:10px;letter-spacing:0.04em; }
+    .nav-btn-next { display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--pink);background:none;border:1px solid rgba(224,64,251,0.3);padding:10px 18px;border-radius:50px;letter-spacing:0.04em; }
+
+    /* ── Page footer ── */
+    .page-footer { border-top:2px solid var(--pink);background:var(--dark);padding:40px 24px 32px;text-align:center; }
+    .page-footer-name  { font-size:13px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:#fff;margin-bottom:16px; }
+    .page-footer-links { display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:24px;flex-wrap:wrap; }
+    .page-footer-links a { font-size:13px;color:rgba(255,255,255,0.55); }
+    .page-footer-links a:hover { color:var(--pink); }
+    .page-footer-dot  { color:rgba(255,255,255,0.2);font-size:12px; }
+    .page-footer-copy { font-size:12px;color:rgba(255,255,255,0.25);line-height:1.7; }
+
+    .hidden { display:none; }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-grid"></div>
+    <div class="header-eyebrow">KYLIE | KELLY · LIST GROWTH</div>
+    <h1>Grow Your List With<br><em>Digital Bundles</em></h1>
+    <p>Everything from the training in one place.<br>Two paths: contribute to someone else's bundle,<br>or host your own. Pick one and start.</p>
+  </div>
+
+  <!-- TABS -->
+  <nav class="tabs" id="tabs">
+    <button class="tab-btn active" data-tab="overview">Overview</button>
+    <button class="tab-btn" data-tab="contributing">Contributing</button>
+    <button class="tab-btn" data-tab="your-resource">Your Resource</button>
+    <button class="tab-btn" data-tab="hosting">Hosting</button>
+    <button class="tab-btn" data-tab="post-bundle">Post-Bundle</button>
+    <button class="tab-btn" data-tab="mistakes">Mistakes</button>
+  </nav>
+
+  <!-- ══════════════════════════════════════════
+       OVERVIEW
+  ══════════════════════════════════════════ -->
+  <div id="panel-overview" class="content">
+
+    <!-- Two paths animation -->
+    <div style="padding:20px 0 10px;margin-bottom:28px;">
+      <div style="margin-bottom:20px;">
+        <div class="path-label-green">Path A Contribute</div>
+        <div class="path-row" id="path-a-row"></div>
+      </div>
+      <div class="path-divider"></div>
+      <div>
+        <div class="path-label-pink">Path B Host</div>
+        <div class="path-row" id="path-b-row"></div>
+      </div>
+      <div class="caption">start as a contributor. scale to host when you're ready.</div>
+    </div>
+
+    <!-- How to use -->
+    <div class="how-to-use">
+      <div class="how-to-use-label">How to use this</div>
+      <p>This guide covers everything from the bundles training. Work through the sections in order, or jump to the one you need most right now. Each section has Kylie's key principles, the specifics that matter, and what to avoid.</p>
+    </div>
+
+    <!-- Section cards -->
+    <div class="at-a-glance-label">YOUR GUIDE AT A GLANCE</div>
+
+    <div class="section-card" onclick="goTo('contributing')">
+      <div class="section-num">01</div>
+      <div class="section-card-text">
+        <div class="section-card-title">Contributing</div>
+        <div class="section-card-sub">How to vet bundles and get real list growth as a contributor</div>
+      </div>
+      <div class="section-card-icon">🎁</div>
+    </div>
+    <div class="section-card" onclick="goTo('your-resource')">
+      <div class="section-num">02</div>
+      <div class="section-card-text">
+        <div class="section-card-title">Your Resource</div>
+        <div class="section-card-sub">Reverse-engineer the right product to put in</div>
+      </div>
+      <div class="section-card-icon">💡</div>
+    </div>
+    <div class="section-card" onclick="goTo('hosting')">
+      <div class="section-num">03</div>
+      <div class="section-card-text">
+        <div class="section-card-title">Hosting</div>
+        <div class="section-card-sub">How to run your own bundle from scratch</div>
+      </div>
+      <div class="section-card-icon">👑</div>
+    </div>
+    <div class="section-card" onclick="goTo('post-bundle')">
+      <div class="section-num">04</div>
+      <div class="section-card-text">
+        <div class="section-card-title">Post-Bundle</div>
+        <div class="section-card-sub">Turning signups into relationships and sales</div>
+      </div>
+      <div class="section-card-icon">📬</div>
+    </div>
+    <div class="section-card" onclick="goTo('mistakes')">
+      <div class="section-num">05</div>
+      <div class="section-card-text">
+        <div class="section-card-title">Mistakes</div>
+        <div class="section-card-sub">What to avoid so you don't waste time on the wrong bundles</div>
+      </div>
+      <div class="section-card-icon">⚠️</div>
+    </div>
+
+    <!-- Quick reference -->
+    <div class="quick-ref">
+      <div class="quick-ref-label">Quick reference</div>
+      <div class="quick-ref-grid">
+        <div>
+          <div class="qr-section-label" style="color:var(--green);">As a contributor</div>
+          <div class="qr-item"><span class="qr-arrow" style="color:var(--green);">→</span><span>Avg ~150 subscribers per bundle</span></div>
+          <div class="qr-item"><span class="qr-arrow" style="color:var(--green);">→</span><span>Sweet spot: 10–30 contributors</span></div>
+          <div class="qr-item"><span class="qr-arrow" style="color:var(--green);">→</span><span>Ideal client fit is non-negotiable</span></div>
+          <div class="qr-item"><span class="qr-arrow" style="color:var(--green);">→</span><span>Never pay to be in a bundle</span></div>
+        </div>
+        <div>
+          <div class="qr-section-label" style="color:var(--pink);">As a host</div>
+          <div class="qr-item"><span class="qr-arrow" style="color:var(--pink);">→</span><span>500–2,000 new subscribers</span></div>
+          <div class="qr-item"><span class="qr-arrow" style="color:var(--pink);">→</span><span>All signups go to your list</span></div>
+          <div class="qr-item"><span class="qr-arrow" style="color:var(--pink);">→</span><span>3–5 day bundle is the sweet spot</span></div>
+          <div class="qr-item"><span class="qr-arrow" style="color:var(--pink);">→</span><span>Warm outreach beats cold pitching</span></div>
+        </div>
+        <div>
+          <div class="qr-section-label" style="color:var(--purple);">Free vs paid</div>
+          <div class="qr-item"><span class="qr-arrow" style="color:var(--purple);">→</span><span>Free = list growth</span></div>
+          <div class="qr-item"><span class="qr-arrow" style="color:var(--purple);">→</span><span>Paid = cash injection</span></div>
+          <div class="qr-item"><span class="qr-arrow" style="color:var(--purple);">→</span><span>Hybrid = free + paid upgrade</span></div>
+          <div class="qr-item"><span class="qr-arrow" style="color:var(--purple);">→</span><span>Decide your goal first</span></div>
+        </div>
+        <div>
+          <div class="qr-section-label" style="color:var(--green);">Your resource</div>
+          <div class="qr-item"><span class="qr-arrow" style="color:var(--green);">→</span><span>Reverse-engineer from main offer</span></div>
+          <div class="qr-item"><span class="qr-arrow" style="color:var(--green);">→</span><span>One specific win, not generic</span></div>
+          <div class="qr-item"><span class="qr-arrow" style="color:var(--green);">→</span><span>Name = transformation, not format</span></div>
+          <div class="qr-item"><span class="qr-arrow" style="color:var(--green);">→</span><span>Add a tripwire if you can</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-quote">
+      <div class="footer-quote-text">"You don't need a big list. You need to be in front of someone else's."</div>
+      <div class="footer-quote-name">Kylie Kelly</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       CONTRIBUTING
+  ══════════════════════════════════════════ -->
+  <div id="panel-contributing" class="content hidden">
+    <div class="section-header">
+      <div class="section-num-lg">01</div>
+      <div>
+        <div class="section-eyebrow">Section 01</div>
+        <div class="section-title">You don't need to host <em>anything to start.</em></div>
+        <div class="section-subtitle">Contributing to someone else's bundle is the lower-lift path and still gets serious results.</div>
+      </div>
+    </div>
+    <div class="anim-card" id="anim-contributing"></div>
+    <div class="bullet-card"><div class="bullet-dot"></div><div class="bullet-text"><strong>Average result: ~150 new subscribers per bundle.</strong> Some more, some less but Kylie's consistent result over her last six bundles was around 150. That's because she's strategic: aligned bundles, ideal client fit, a quality resource every time.</div></div>
+    <div class="bullet-card"><div class="bullet-dot"></div><div class="bullet-text"><strong>Is this attracting your ideal client?</strong> Non-negotiable. There is zero point in being in a bundle if your people won't be there. Every subscriber you add costs money on your email service provider they need to be the right ones.</div></div>
+    <div class="bullet-card"><div class="bullet-dot"></div><div class="bullet-text"><strong>10–30 contributors is the sweet spot.</strong> Over 50? Don't bother. Your resource gets completely lost, subscribers get overwhelmed, and you'll end up with low-quality leads bombarded by dozens of welcome sequences.</div></div>
+    <div class="bullet-card"><div class="bullet-dot"></div><div class="bullet-text"><strong>Vet the host before you say yes.</strong> Sign up to their email list if you're on the fence. See if they actually send emails, what the experience is like, what their vibe is. You're lending them the trust you've built with your audience make sure it's worth it.</div></div>
+    <div class="bullet-card"><div class="bullet-dot"></div><div class="bullet-text"><strong>Ask questions. It's allowed.</strong> Don't be afraid to ask who else is in it, what the contributor expectations are, how they're promoting it. A good host will answer without hesitation.</div></div>
+    <div class="bullet-card"><div class="bullet-dot"></div><div class="bullet-text"><strong>Never pay to contribute.</strong> Unless you're a sponsor getting extra visibility, you should not pay to be in a bundle. If money changes hands, the dynamic changes entirely. Not in your favour.</div></div>
+    <div class="bullet-card"><div class="bullet-dot"></div><div class="bullet-text"><strong>Build relationships with other contributors.</strong> 99% of people don't do this. But when you're in a bundle, you're surrounded by people who serve your same ideal client. Reach out. Have a coffee chat. This is where collaborations start.</div></div>
+    <div class="bullet-card"><div class="bullet-dot"></div><div class="bullet-text"><strong>Personalise your promo email.</strong> You'll get swipe copy from the host. Use it as a starting point, not a copy-paste. Add a story, tell them why you're excited, mention a gift you're grabbing yourself. Your audience can tell the difference.</div></div>
+    <div class="takeaway">
+      <div class="takeaway-glow"></div>
+      <div class="takeaway-header"><span class="takeaway-icon">💡</span><span class="takeaway-label">The Takeaway</span></div>
+      <div class="takeaway-text">Being selective is the strategy. One aligned bundle beats five random ones every single time.</div>
+    </div>
+    <div class="nav-footer">
+      <button class="nav-btn-back" onclick="goTo('overview')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transform:rotate(180deg)"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        Overview
+      </button>
+      <button class="nav-btn-next" onclick="goTo('your-resource')">Your Resource →</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       YOUR RESOURCE
+  ══════════════════════════════════════════ -->
+  <div id="panel-your-resource" class="content hidden">
+    <div class="section-header">
+      <div class="section-num-lg">02</div>
+      <div>
+        <div class="section-eyebrow">Section 02</div>
+        <div class="section-title">Start with the end. <em>Work backwards.</em></div>
+        <div class="section-subtitle">The right resource isn't random it's reverse-engineered from where you want them to end up.</div>
+      </div>
+    </div>
+    <div class="anim-card" id="anim-resource"></div>
+    <div class="bullet-card"><div class="bullet-dot"></div><div class="bullet-text"><strong>Reverse-engineer from your main offer.</strong> What offer do you ultimately want them in: membership, course, 1:1, mastermind? Work backwards. Your bundle resource is the first step in that journey. Make it a no-brainer entry point.</div></div>
+    <div class="bullet-card"><div class="bullet-dot"></div><div class="bullet-text"><strong>If you don't have a main offer yet, that's okay.</strong> Think about what quick win would genuinely help your ideal client right now. Get them on your list, start building the relationship, and ask them what they need. Let the market tell you what to create.</div></div>
+    <div class="bullet-card"><div class="bullet-dot"></div><div class="bullet-text"><strong>Give them one specific win.</strong> Not a generic overview of everything you know. Something so good they think "I can't believe I got that for free." That's the reaction you're going for.</div></div>
+    <div class="bullet-card"><div class="bullet-dot"></div><div class="bullet-text"><strong>The format doesn't matter.</strong> Checklist, PDF, private audio, quiz, mini-course, AI tool. Whatever format works best for the content. The win is what matters, not the container.</div></div>
+    <div class="bullet-card"><div class="bullet-dot"></div><div class="bullet-text"><strong>Name it around the transformation, not the format.</strong> "Email Checklist" is forgettable. "The 15-Minute List Builder" stops the scroll. In a bundle with 10–30 other resources, your name is your hook. Use ChatGPT to brainstorm names if you're stuck.</div></div>
+    <div class="bullet-card"><div class="bullet-dot"></div><div class="bullet-text"><strong>Rotate your products.</strong> Don't put the same resource in every bundle for six months running. It devalues the product and means loads of your existing subscribers already have it. Mix it up or create something fresh specifically for the bundle.</div></div>
+    <div class="bullet-card"><div class="bullet-dot"></div><div class="bullet-text"><strong>Optimise your opt-in page.</strong> Mock-up image. Specific headline. Tiny bit of copy. Name and email only. Make it easy to say yes. A weak opt-in page wastes all the traffic the bundle sends you.</div></div>
+    <div class="bullet-card"><div class="bullet-dot"></div><div class="bullet-text"><strong>Add a tripwire or upsell if you can.</strong> A small offer ($9–47) on the thank-you page turns your bundle traffic into revenue. It's not essential for your first bundle, but start thinking about it after you've done one or two.</div></div>
+    <div class="takeaway">
+      <div class="takeaway-glow"></div>
+      <div class="takeaway-header"><span class="takeaway-icon">💡</span><span class="takeaway-label">The Takeaway</span></div>
+      <div class="takeaway-text">Your bundle resource is the on-ramp. If it doesn't lead somewhere, you're building a list with no destination.</div>
+    </div>
+    <div class="nav-footer">
+      <button class="nav-btn-back" onclick="goTo('contributing')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transform:rotate(180deg)"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        Contributing
+      </button>
+      <button class="nav-btn-next" onclick="goTo('hosting')">Hosting →</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       HOSTING
+  ══════════════════════════════════════════ -->
+  <div id="panel-hosting" class="content hidden">
+    <div class="section-header">
+      <div class="section-num-lg">03</div>
+      <div>
+        <div class="section-eyebrow">Section 03</div>
+        <div class="section-title">It's less work than <em>you think.</em></div>
+        <div class="section-subtitle">Far less work than a summit. Still work, but when the upside is 500–2,000 new subscribers, it's worth it.</div>
+      </div>
+    </div>
+    <div class="anim-card" id="anim-hosting"></div>
+    <div class="bullet-card"><div class="bullet-dot"></div><div class="bullet-text"><strong>Contribute first. Host when you're ready.</strong> Being in a bundle as a contributor shows you how they run, what you'd do differently, and who the good hosts are in your space. One or two bundles as a contributor gives you everything you need.</div></div>
+    <div class="bullet-card"><div class="bullet-dot"></div><div class="bullet-text"><strong>Be specific. Outcome-based. Slightly polarising.</strong> Not "a business bundle" but "list growth for coaches." The specific theme makes it easier to find contributors, easier to market, and easier to attract the exact right people. Generic bundles don't perform.</div></div>
+    <div class="bullet-card"><div class="bullet-dot"></div><div class="bullet-text"><strong>Keep it to 10–30 contributors.</strong> Curated beats crowded. Vet for alignment and quality. Your reputation is on the line too. Contributors are lending you their audience's trust.</div></div>
+    <div class="bullet-card"><div class="bullet-dot"></div><div class="bullet-text"><strong>Start with warm outreach.</strong> Your existing peers, past collaborators, podcast guests, people in communities you're already in. You'd be surprised how fast a list of 10–30 people comes together when you start from your network.</div></div>
+    <div class="bullet-card"><div class="bullet-dot"></div><div class="bullet-text"><strong>Give contributors everything they need.</strong> Clear expectations, a promotional kit, a timeline. Everyone promoting is non-negotiable. Make it easy for them: provide a swipe email they can personalise and send.</div></div>
+    <div class="bullet-card"><div class="bullet-dot"></div><div class="bullet-text"><strong>Tech you actually need:</strong> A sign-up page (name + email), a gift delivery page with product links, and a welcome email. You can do all of this with your existing ESP. A landing page in Kit, a Google Drive for delivery, an automated email. That's it.</div></div>
+    <div class="bullet-card"><div class="bullet-dot"></div><div class="bullet-text"><strong>3–5 days is the sweet spot.</strong> Long enough to build momentum, short enough to stay urgent. Any longer and signups slow and excitement drops.</div></div>
+    <div class="bullet-card"><div class="bullet-dot"></div><div class="bullet-text"><strong>All signups go to your list.</strong> Not just the people who grab your product every single person who signs up to the bundle. That's why hosting outpaces contributing for list growth. You own the event; you get the list.</div></div>
+    <div class="takeaway">
+      <div class="takeaway-glow"></div>
+      <div class="takeaway-header"><span class="takeaway-icon">💡</span><span class="takeaway-label">The Takeaway</span></div>
+      <div class="takeaway-text">Start small. 10 contributors, a simple opt-in page, a gift delivery link page. That is enough. Build from there.</div>
+    </div>
+    <div class="nav-footer">
+      <button class="nav-btn-back" onclick="goTo('your-resource')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transform:rotate(180deg)"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        Your Resource
+      </button>
+      <button class="nav-btn-next" onclick="goTo('post-bundle')">Post-Bundle →</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       POST-BUNDLE
+  ══════════════════════════════════════════ -->
+  <div id="panel-post-bundle" class="content hidden">
+    <div class="section-header">
+      <div class="section-num-lg">04</div>
+      <div>
+        <div class="section-eyebrow">Section 04</div>
+        <div class="section-title">The bundle ends. <em>The relationship begins.</em></div>
+        <div class="section-subtitle">This is where signups become subscribers, and subscribers become buyers.</div>
+      </div>
+    </div>
+    <div class="anim-card" id="anim-postbundle"></div>
+    <div class="bullet-card"><div class="bullet-dot"></div><div class="bullet-text"><strong>If you contributed:</strong> Your Start Here email goes out automatically when they grab your product. Make sure it's set up before the bundle goes live. Then keep sending your regular emails. Don't ghost them once they're on the list.</div></div>
+    <div class="bullet-card"><div class="bullet-dot"></div><div class="bullet-text"><strong>If you hosted:</strong> Wait about a week after the bundle closes. Let the noise die down. Then send a welcome email as the host introduce yourself, remind them how they found you, and ask them a question to get them engaging.</div></div>
+    <div class="bullet-card"><div class="bullet-dot"></div><div class="bullet-text"><strong>Ask how they found the bundle.</strong> What was their favourite gift? What would make it better next time? This doubles as a feedback form and a relationship-builder. People love being asked.</div></div>
+    <div class="bullet-card"><div class="bullet-dot"></div><div class="bullet-text"><strong>Add an engagement sequence if you only send weekly.</strong> If you email once a week normally, set up 2–3 extra emails for new bundle subscribers your best content, your values, a quick win. Fast-track the relationship instead of just dropping them into the regular schedule.</div></div>
+    <div class="bullet-card"><div class="bullet-dot"></div><div class="bullet-text"><strong>Make an offer.</strong> By the third email, invite them to something. They've been through an amazing bundle experience, they're warm. Pitch them. Use your four email types: connection, teaching, connection, invitation.</div></div>
+    <div class="bullet-card"><div class="bullet-dot"></div><div class="bullet-text"><strong>Track your results.</strong> Bundle name, resource you submitted, dates, number of leads. Go back and fill in the numbers after it closes. That data tells you whether to say yes next time, or pass.</div></div>
+    <div class="bullet-card"><div class="bullet-dot"></div><div class="bullet-text"><strong>Reach out to the host (and other contributors).</strong> If the bundle went well and audiences were aligned, that host is now a warm contact. Suggest a freebie swap, a podcast collab, a future bundle together. The relationship is where the real long-term value is.</div></div>
+    <div class="takeaway">
+      <div class="takeaway-glow"></div>
+      <div class="takeaway-header"><span class="takeaway-icon">💡</span><span class="takeaway-label">The Takeaway</span></div>
+      <div class="takeaway-text">The bundle fills the list. The emails after are where the money actually gets made. Don't skip this part.</div>
+    </div>
+    <div class="nav-footer">
+      <button class="nav-btn-back" onclick="goTo('hosting')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transform:rotate(180deg)"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        Hosting
+      </button>
+      <button class="nav-btn-next" onclick="goTo('mistakes')">Mistakes →</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       MISTAKES
+  ══════════════════════════════════════════ -->
+  <div id="panel-mistakes" class="content hidden">
+    <div class="section-header">
+      <div class="section-num-lg">05</div>
+      <div>
+        <div class="section-eyebrow">Section 05</div>
+        <div class="section-title">Most bundles fail for <em>the same reasons.</em></div>
+        <div class="section-subtitle">Not because of the strategy. Because of how it was implemented.</div>
+      </div>
+    </div>
+    <div class="anim-card" id="anim-mistakes"></div>
+    <div class="bullet-card"><div class="bullet-dot"></div><div class="bullet-text"><strong>Saying yes to misaligned bundles.</strong> FOMO is real, but a bundle full of wrong-fit subscribers costs you more than it gains. You pay for every subscriber on your list. Wrong people = wasted money and terrible email metrics.</div></div>
+    <div class="bullet-card"><div class="bullet-dot"></div><div class="bullet-text"><strong>A weak opt-in page.</strong> No mock-up. Vague headline. Too many fields. If your opt-in page doesn't clearly communicate the win in five seconds, people scroll past. The bundle sends the traffic your page converts it.</div></div>
+    <div class="bullet-card"><div class="bullet-dot"></div><div class="bullet-text"><strong>A too-generic resource.</strong> "5 email tips" doesn't stop anyone. Your resource is often someone's first impression of your business. Make them think "I would have paid for this." Specific, actionable, transformation-focused.</div></div>
+    <div class="bullet-card"><div class="bullet-dot"></div><div class="bullet-text"><strong>No nurture plan.</strong> Getting the subscriber is step one. If you don't email until you're selling, you're leaving money on the table and training them to ignore you. Have a Start Here email and a plan for what comes after before the bundle goes live.</div></div>
+    <div class="bullet-card"><div class="bullet-dot"></div><div class="bullet-text"><strong>Not tracking results.</strong> If you can't remember which bundles worked and which didn't, you'll keep repeating the same experiments. Name, resource, dates, leads. Four columns in a spreadsheet is all it takes.</div></div>
+    <div class="bullet-card"><div class="bullet-dot"></div><div class="bullet-text"><strong>The same product in every bundle.</strong> Once or twice is fine. But if the same product has been in every bundle for six months, it loses perceived value, and a lot of your subscribers will already have it.</div></div>
+    <div class="bullet-card"><div class="bullet-dot"></div><div class="bullet-text"><strong>Going straight to hosting without contributing first.</strong> Contributing teaches you what good looks like, what you'd do differently, and who you want to work with again. Don't skip this step.</div></div>
+    <div class="takeaway">
+      <div class="takeaway-glow"></div>
+      <div class="takeaway-header"><span class="takeaway-icon">💡</span><span class="takeaway-label">The Takeaway</span></div>
+      <div class="takeaway-text">Intentional beats prolific. One well-chosen bundle beats five random ones. Always.</div>
+    </div>
+    <div class="nav-footer">
+      <button class="nav-btn-back" onclick="goTo('overview')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transform:rotate(180deg)"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        Overview
+      </button>
+      <div></div>
+    </div>
+  </div>
+
+  <!-- PAGE FOOTER -->
+  <footer class="page-footer">
+    <div class="page-footer-name">KYLIE | KELLY</div>
+    <div class="page-footer-links">
+      <a href="https://kyliekelly.com/" target="_blank" rel="noopener noreferrer">kyliekelly.com</a>
+      <span class="page-footer-dot">·</span>
+      <a href="https://kyliekelly.com/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy Policy &amp; Terms</a>
+    </div>
+    <div class="page-footer-copy">
+      &copy; 2026 Kylie Kelly &middot; ABN 76 205 632 387 &middot; All rights reserved.<br>
+      This resource is for members of Email Marketing Skool. Educational use only. By using this tool you agree to Kylie Kelly's Terms &amp; Conditions.
+    </div>
+  </footer>
+
+  <script>
+    /* ── Tab navigation ── */
+    const panels = ['overview','contributing','your-resource','hosting','post-bundle','mistakes'];
+    let animsRun = {};
+
+    function goTo(tab) {
+      panels.forEach(id => {
+        document.getElementById('panel-' + id).classList.toggle('hidden', id !== tab);
+      });
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.tab === tab);
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (!animsRun[tab]) { animsRun[tab] = true; buildAnim(tab); }
+    }
+
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => goTo(btn.dataset.tab));
+    });
+
+    /* ── Build animations on first visit ── */
+    function buildAnim(tab) {
+      if (tab === 'overview')      buildOverviewAnim();
+      if (tab === 'contributing')  buildContributingAnim();
+      if (tab === 'your-resource') buildResourceAnim();
+      if (tab === 'hosting')       buildHostingAnim();
+      if (tab === 'post-bundle')   buildPostBundleAnim();
+      if (tab === 'mistakes')      buildMistakesAnim();
+    }
+
+    /* ── Overview: two paths ── */
+    function buildOverviewAnim() {
+      const aSteps = [{icon:'🔍',label:'Find it'},{icon:'✅',label:'Vet it'},{icon:'🎁',label:'Submit'},{icon:'📣',label:'Promote'},{icon:'📬',label:'Nurture'}];
+      const bSteps = [{icon:'🎯',label:'Theme'},{icon:'🤝',label:'Contributors'},{icon:'🛠',label:'Build'},{icon:'🚀',label:'Launch'},{icon:'📈',label:'Grow'}];
+      buildPathRow('path-a-row', aSteps, 'green', 0.0);
+      buildPathRow('path-b-row', bSteps, 'pink',  0.3);
+    }
+
+    function buildPathRow(rowId, steps, color, baseDelay) {
+      const row = document.getElementById(rowId);
+      steps.forEach((s, i) => {
+        const wrap = document.createElement('div');
+        wrap.style.cssText = 'display:flex;align-items:center;';
+        const cell = document.createElement('div');
+        cell.style.cssText = 'text-align:center;width:64px;opacity:0;';
+        cell.style.animation = `ovIn .5s ease ${baseDelay + i*0.12 + 0.1}s both, ovFloat ${3+i*0.4}s ease-in-out ${baseDelay + i*0.12 + 0.6}s infinite`;
+        const icon = document.createElement('div');
+        icon.className = color === 'green' ? 'step-icon-green' : 'step-icon-pink';
+        if (color === 'pink' && i === steps.length - 1) icon.style.animation = 'ovPulse 2s ease-in-out infinite';
+        icon.textContent = s.icon;
+        const label = document.createElement('div');
+        label.className = color === 'green' ? 'step-label-green' : 'step-label-pink';
+        label.textContent = s.label;
+        cell.appendChild(icon); cell.appendChild(label);
+        wrap.appendChild(cell);
+        if (i < steps.length - 1) {
+          const line = document.createElement('div');
+          line.className = color === 'green' ? 'connector-green' : 'connector-pink';
+          line.style.cssText += `opacity:0;animation:ovLine .3s ease ${baseDelay + i*0.12 + 0.3}s both;`;
+          wrap.appendChild(line);
+        }
+        row.appendChild(wrap);
+      });
+    }
+
+    /* ── Contributing: trust flow ── */
+    function buildContributingAnim() {
+      const el = document.getElementById('anim-contributing');
+      el.innerHTML = `
+        <div class="trust-flow">
+          <div style="opacity:0;animation:pIn .5s ease .1s both;">
+            <div class="trust-box-green">
+              <span style="font-size:24px;">🎁</span>
+              <div class="trust-label-green">Host's List</div>
+              <div class="trust-sub">their audience</div>
+            </div>
+          </div>
+          <div class="trust-arrow" style="opacity:0;animation:pIn .3s ease .4s both, arrowPulse 1.5s ease-in-out .8s infinite;">→</div>
+          <div style="opacity:0;animation:pIn .5s ease .3s both;">
+            <div class="trust-box-mid" style="animation:trustGlow 3s ease-in-out 1s infinite;">
+              <span style="font-size:24px;">🎀</span>
+              <div class="trust-label-pink">Bundle</div>
+              <div class="trust-sub">shared trust</div>
+            </div>
+          </div>
+          <div class="trust-arrow" style="opacity:0;animation:pIn .3s ease .6s both, arrowPulse 1.5s ease-in-out 1s infinite;">→</div>
+          <div style="opacity:0;animation:pIn .5s ease .5s both;">
+            <div class="trust-box-final">
+              <span style="font-size:24px;">📬</span>
+              <div class="trust-label-pink">Your List</div>
+              <div class="trust-sub-f">warm leads</div>
+            </div>
+          </div>
+        </div>
+        <div class="caption" style="margin-top:16px;">borrow the trust someone else already built</div>`;
+    }
+
+    /* ── Resource: reverse-engineer steps ── */
+    function buildResourceAnim() {
+      const el = document.getElementById('anim-resource');
+      const steps = [
+        {num:'01', label:'Main Offer', color:'var(--purple)'},
+        {num:'02', label:'First Step', color:'var(--pink)'},
+        {num:'03', label:'Quick Win',  color:'var(--green)'},
+        {num:'04', label:'Name It',    color:'var(--pink)'},
+        {num:'05', label:'Opt-in Page',color:'var(--purple)'},
+        {num:'06', label:'Tripwire?',  color:'var(--green)'},
+      ];
+      const tiles = steps.map((s,i) => `
+        <div class="step-tile" style="border-top:2px solid ${s.color};opacity:0;animation:hIn .4s ease ${i*0.1+0.1}s both;">
+          <div class="step-tile-num" style="color:${s.color};">${s.num}</div>
+          <div class="step-tile-label">${s.label}</div>
+        </div>`).join('');
+      el.innerHTML = `<div class="steps-grid">${tiles}</div><div class="caption" style="margin-top:16px;">reverse-engineer every time</div>`;
+    }
+
+    /* ── Hosting: free vs paid compare + steps ── */
+    function buildHostingAnim() {
+      const el = document.getElementById('anim-hosting');
+      el.innerHTML = `
+        <div class="compare-grid">
+          <div class="compare-col compare-col-green">
+            <div class="compare-col-label" style="color:var(--green);">Free Bundle</div>
+            <div class="compare-item"><span style="color:var(--green);">→</span><span>List growth focus</span></div>
+            <div class="compare-item"><span style="color:var(--green);">→</span><span>Lower signup barrier</span></div>
+            <div class="compare-item"><span style="color:var(--green);">→</span><span>Add paid upgrade</span></div>
+            <div class="compare-item"><span style="color:var(--green);">→</span><span>High volume</span></div>
+          </div>
+          <div class="compare-col compare-col-purple">
+            <div class="compare-col-label" style="color:var(--purple);">Paid Bundle</div>
+            <div class="compare-item"><span style="color:var(--purple);">→</span><span>Cash injection focus</span></div>
+            <div class="compare-item"><span style="color:var(--purple);">→</span><span>Buyers = warmer leads</span></div>
+            <div class="compare-item"><span style="color:var(--purple);">→</span><span>Affiliate commission</span></div>
+            <div class="compare-item"><span style="color:var(--purple);">→</span><span>Harder to sell now</span></div>
+          </div>
+        </div>
+        <div class="caption" style="margin-top:16px;">need list growth or cash? that answer decides it</div>`;
+    }
+
+    /* ── Post-bundle: flow timeline ── */
+    function buildPostBundleAnim() {
+      const el = document.getElementById('anim-postbundle');
+      const items = [
+        {day:'Day 1', text:'Bundle closes. Deep breath.'},
+        {day:'~Day 7', text:'Welcome email as host: who you are, how they found you, a question'},
+        {day:'Day 9', text:'Engagement email: best content or a quick win'},
+        {day:'Day 11', text:'Teaching email: something useful, no pitch yet'},
+        {day:'Day 13', text:'Invitation: make them an offer'},
+      ];
+      const rows = items.map((item,i) => `
+        <div class="flow-item" style="opacity:0;animation:pIn .4s ease ${i*0.13+0.1}s both;">
+          <div class="flow-day">${item.day}</div>
+          <div class="flow-text">${item.text}</div>
+        </div>`).join('');
+      el.innerHTML = `<div class="flow-list">${rows}</div><div class="caption" style="margin-top:16px;">the emails after are where the money gets made</div>`;
+    }
+
+    /* ── Mistakes ── */
+    function buildMistakesAnim() {
+      const el = document.getElementById('anim-mistakes');
+      const mistakes = [
+        {icon:'🚫', label:'Wrong bundle'},
+        {icon:'📄', label:'Weak opt-in'},
+        {icon:'😴', label:'Generic resource'},
+        {icon:'🔇', label:'No nurture'},
+        {icon:'📊', label:'No tracking'},
+        {icon:'🔁', label:'Same product'},
+      ];
+      const cards = mistakes.map((m,i) => `
+        <div class="mistake-card" style="opacity:0;animation:mIn .4s ease ${i*0.1+0.1}s both;">
+          <div class="mistake-icon">${m.icon}</div>
+          <div class="mistake-label">${m.label}</div>
+        </div>`).join('');
+      el.innerHTML = `<div class="mistakes-grid" style="grid-template-columns:1fr 1fr 1fr;max-width:360px;">${cards}</div><div class="caption" style="margin-top:16px;">most bundle disappointments come from these six things</div>`;
+    }
+
+    /* ── Init ── */
+    animsRun['overview'] = true;
+    buildOverviewAnim();
+  </script>
+</body>
+</html>
